@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/bg_gradient_green"
+    android:layout_margin="16dp"
+    android:layout_marginTop="0dp"
+    android:paddingStart="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/tour_walker_image_view"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/icon_walker"
+            android:tint="@color/white"
+            android:layout_marginEnd="18dp"
+            app:srcCompat="@drawable/ic_placeholder_pin"
+            tools:ignore="UseAppTint" />
+        <TextView
+            android:id="@+id/tour_date_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Area:"
+            android:layout_marginEnd="18dp"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+        <TextView
+            android:id="@+id/tour_date_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bodømarka"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+
+
+
+
+
+<!--    <ImageView-->
+<!--        android:id="@+id/time_image_view"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:contentDescription="@string/icon_clock"-->
+<!--        android:tint="@color/white"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/tour_date_text_view"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tour_walker_image_view"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tour_walker_image_view"-->
+<!--        app:srcCompat="@drawable/ic_stop_watch"-->
+<!--        tools:ignore="UseAppTint" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tour_time_image_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:text="20:35"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="30sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/time_image_view"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/time_image_view"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/time_image_view" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/distance_text_view"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="60dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:text="1km 2m"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="30sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/tour_time_image_view"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/tour_time_image_view"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/tour_time_image_view" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/distance_image_view"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:contentDescription="@string/distance_icon"-->
+<!--        android:tint="@color/white"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/distance_text_view"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/distance_text_view"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/distance_text_view"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_distance"-->
+<!--        tools:ignore="UseAppTint" />-->
+</LinearLayout>
+
+

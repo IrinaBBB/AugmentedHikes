@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Augmented Hikes</string>
+    <string name="icon_mountain">An icon of a mountain</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_tops">Tops</string>
+    <string name="title_map">Map</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
+    <string name="mountains">Mountains</string>
+    <string name="hunstadtoppen">Hunstadtoppen</string>
+    <string name="keiservarden">Keiservarden</string>
+    <string name="l_psfjellet">Løpsfjellet</string>
+    <string name="skautuva">Skautuva</string>
+    <string name="pallfjellet">Pallfjellet</string>
+    <string name="sandjordlia">Sandjordlia</string>
+    <string name="mj_nesskardet">Mjønesskardet</string>
+    <string name="elvely">Elvely</string>
+    <string name="map">Map</string>
+    <string name="icon_walker">icon walker</string>
+    <string name="icon_clock">icon clock</string>
+    <string name="distance_icon">distance icon</string>
+    <string name="gears">gears</string>
+    <string name="hikers">hikers</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_demo_tabbed">DemoTabbedActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="sensors">Sensors</string>
+
+    <string name="accelerometer">Accelerometer</string>
+    <string name="z_acceleration_m_s_2">Z Acceleration (m/s^2):</string>
+    <string name="y_acceleration_m_s_2">Y Acceleration (m/s^2):</string>
+    <string name="x_acceleration_m_s_2">X Acceleration (m/s^2):</string>
+    <string name="x_geomagnetic_field_956_t">X Geomagnetic Field (μT):</string>
+    <string name="z_geomagnetic_field_t">Z Geomagnetic Field (μT):</string>
+    <string name="y_geomagnetic_field_t">Y Geomagnetic Field (μT):</string>
+    <string name="x_gyroscope">X Gyroscope (rad/s):</string>
+    <string name="z_gyroscope">Z Gyroscope (rad/s):</string>
+    <string name="y_gyroscope">Y Gyroscope (rad/s):</string>
+    <string name="x_orientation">Pitch (angle around the x-axis in &#176;):</string>
+    <string name="z_orientation">Azimuth (angle around the z-axis in &#176;):</string>
+    <string name="y_orientation">Roll (angle around the y-axis in &#176;):</string>
+    <string name="_0">0</string>
+    <string name="cube">cube</string>
+    <string name="raw">Raw</string>
+    <string name="filtered">Filtered</string>
+    <string name="magnetometer">Magnetometer</string>
+    <string name="gyroscope">Gyroscope</string>
+    <string name="orientation">Orientation</string>
+    <string name="view">view</string>
+    <string name="add_new_hike">Add new hike</string>
+
+
+</resources>
