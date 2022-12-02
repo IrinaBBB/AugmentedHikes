@@ -2,54 +2,34 @@ package ru.irinavb.augmentedhikes.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
-import org.osmdroid.api.IMapController
-import org.osmdroid.config.Configuration
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory
-import org.osmdroid.util.GeoPoint
-import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.ItemizedIconOverlay
-import org.osmdroid.views.overlay.ItemizedOverlay
-import org.osmdroid.views.overlay.OverlayItem
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
-import ru.irinavb.augmentedhikes.R
 import ru.irinavb.augmentedhikes.databinding.FragmentMapBinding
-import ru.irinavb.augmentedhikes.services.TrackingService
-import ru.irinavb.augmentedhikes.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.irinavb.augmentedhikes.utils.Constants.REQUEST_CODE_BACKGROUND_LOCATION_PERMISSION
 import ru.irinavb.augmentedhikes.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import ru.irinavb.augmentedhikes.utils.TrackingUtility
 
 @AndroidEntryPoint
-class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks, LocationListener {
+class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: MapViewModel by viewModels()
 
-    private lateinit var mapView: MapView
-    private lateinit var mapController: IMapController
-
-    private lateinit var locationManager: LocationManager
-    private lateinit var currentLocation: GeoPoint
+    private var map: GoogleMap? = null
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(
@@ -59,11 +39,17 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks, LocationLis
     ): View {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        (activity as AppCompatActivity).supportActionBar?.title = "Map"
-        locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as
-                LocationManager
-
+        binding.mapView.onCreate(savedInstanceState)
+        binding.mapView.getMapAsync {
+            map = it
+            val sydney = LatLng(67.28333282, 14.38333321)
+            it.addMarker(
+                MarkerOptions()
+                    .position(sydney)
+                    .title("Marker in Bodø")
+            )
+            it.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        }
         return root
     }
 
@@ -71,35 +57,6 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks, LocationLis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestPermissions()
-        initMap(view)
-        binding.floatingActionButton.setOnClickListener {
-            sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
-        }
-        locationManager.requestLocationUpdates(
-            LocationManager.GPS_PROVIDER,
-            3000,
-            0.0f,
-            this@MapFragment
-        )
-        val overlayItem = OverlayItem("", "", currentLocation)
-        val markerDrawable = ContextCompat.getDrawable(
-            requireContext(),
-            R.drawable.ic_i_am_here
-        )
-        overlayItem.setMarker(markerDrawable)
-        val overlayItemArrayList: ArrayList<OverlayItem> = ArrayList()
-        overlayItemArrayList.add(overlayItem)
-        val locationOverlay: ItemizedOverlay<OverlayItem> =
-            ItemizedIconOverlay(overlayItemArrayList, object : ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
-                override fun onItemSingleTapUp(i: Int, overlayItem: OverlayItem): Boolean {
-                    return true
-                }
-                override fun onItemLongPress(i: Int, overlayItem: OverlayItem): Boolean {
-                    return false
-                }
-            }, requireContext())
-
-        mapView.overlays.add(locationOverlay)
     }
 
     private fun requestPermissions() {
@@ -149,57 +106,38 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks, LocationLis
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    @SuppressLint("MissingPermission")
-    private fun initMap(view: View) {
-        mapView = view.findViewById(R.id.map_view)
-        mapController = mapView.controller
-
-        // OSM Configuration, without it OSM tiles will not be shown
-        Configuration.getInstance().load(
-            requireContext(),
-            PreferenceManager.getDefaultSharedPreferences(requireContext())
-        )
-
-        mapView.apply {
-            setTileSource(TileSourceFactory.MAPNIK)
-            setMultiTouchControls(true)
-        }
-
-        val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        if (location != null) {
-            currentLocation = GeoPoint(location.latitude, location.longitude)
-            Log.d("Current Location", "Lat: ${location.latitude}, Long: ${location.longitude} ")
-        }
-
-        mapController.apply {
-            setCenter(currentLocation)
-            setZoom(16.0)
-        }
-    }
-
-    private fun sendCommandToService(action: String) =
-        Intent(requireContext(), TrackingService::class.java).also {
-            it.action = action
-            requireContext().startService(it)
-        }
-
-    override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun onLocationChanged(location: Location) {
-        currentLocation = GeoPoint(location.latitude, location.longitude)
-        Log.d("OSMLocation", location.latitude.toString())
+    override fun onResume() {
+        super.onResume()
+        binding.mapView.onResume()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.mapView.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding.mapView.onStop()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.mapView.onPause()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        binding.mapView.onLowMemory()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding.mapView.onSaveInstanceState(outState)
     }
 }

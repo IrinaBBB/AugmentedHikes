@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'com.google.ar.sceneform.plugin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -42,19 +43,19 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
     implementation 'androidx.preference:preference:1.2.0'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     // OSM
-    implementation 'org.osmdroid:osmdroid-android:6.1.8'
+    implementation 'org.osmdroid:osmdroid-android:6.1.13'
 
     // Room
     implementation "androidx.room:room-runtime:2.4.3"
@@ -65,7 +66,7 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.3'
 
     // LifeCycle ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha02"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha03"
 
     // Dagger Hilt
     implementation 'com.google.dagger:hilt-android:2.43.2'
@@ -73,11 +74,14 @@ dependencies {
 
     // AR
     api project(':sceneformux')
-    implementation 'com.google.ar:core:1.33.0'
+    implementation 'com.google.ar:core:1.34.0'
 
     // Easy Permissions
     implementation 'pub.devrel:easypermissions:3.0.0'
 
     // Life Cycle
     implementation "androidx.lifecycle:lifecycle-service:2.5.1"
+
+    // Google Maps
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 }
