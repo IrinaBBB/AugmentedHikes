@@ -2,21 +2,22 @@ package ru.irinavb.augmentedhikes.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import ru.irinavb.augmentedhikes.databinding.FragmentMapBinding
+import ru.irinavb.augmentedhikes.services.TrackingService
+import ru.irinavb.augmentedhikes.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import ru.irinavb.augmentedhikes.utils.Constants.REQUEST_CODE_BACKGROUND_LOCATION_PERMISSION
 import ru.irinavb.augmentedhikes.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import ru.irinavb.augmentedhikes.utils.TrackingUtility
@@ -42,15 +43,20 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync {
             map = it
-            val sydney = LatLng(67.28333282, 14.38333321)
-            it.addMarker(
-                MarkerOptions()
-                    .position(sydney)
-                    .title("Marker in Bodø")
-            )
-            it.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        }
+        binding.floatingActionButton.setOnClickListener {
+            Toast.makeText(requireContext(), "Hello", Toast.LENGTH_LONG).show()
+            sendCommandService(ACTION_START_OR_RESUME_SERVICE)
         }
         return root
+    }
+
+    private fun sendCommandService(action: String) {
+        Intent(requireContext(), TrackingService::class.java).also {
+            it.action = action
+            requireContext().startService(it)
+            requireContext()
+        }
     }
 
     @SuppressLint("MissingPermission")

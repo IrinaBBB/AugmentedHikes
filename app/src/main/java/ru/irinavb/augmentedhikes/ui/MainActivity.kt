@@ -1,5 +1,6 @@
 package ru.irinavb.augmentedhikes.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.irinavb.augmentedhikes.R
 import ru.irinavb.augmentedhikes.databinding.ActivityMainBinding
 import ru.irinavb.augmentedhikes.ui.sensors.accelerometer.AccelerometerFragment
+import ru.irinavb.augmentedhikes.utils.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,11 +32,19 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        navigateToMapFragmentIfNeeded(intent)
+
         val navView: BottomNavigationView = binding.navView
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
         navView.setupWithNavController(navController)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToMapFragmentIfNeeded(intent)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -58,5 +68,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
+    }
+
+    private fun navigateToMapFragmentIfNeeded(intent: Intent?) {
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+            navController.navigate(R.id.action_global_map_fragment)
+        }
     }
 }

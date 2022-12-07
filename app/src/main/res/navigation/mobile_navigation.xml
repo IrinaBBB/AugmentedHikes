@@ -5,6 +5,10 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_tops">
 
+    <action android:id="@+id/action_global_map_fragment"
+        app:destination="@+id/navigation_map"
+        app:launchSingleTop="true" />
+
     <fragment
         android:id="@+id/navigation_tops"
         android:name="ru.irinavb.augmentedhikes.ui.tops.TopsFragment"
