@@ -19,6 +19,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.*
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.maps.model.LatLng
+import dagger.hilt.android.AndroidEntryPoint
 import ru.irinavb.augmentedhikes.R
 import ru.irinavb.augmentedhikes.ui.MainActivity
 import ru.irinavb.augmentedhikes.utils.Constants.ACTION_PAUSE_SERVICE
@@ -31,15 +32,17 @@ import ru.irinavb.augmentedhikes.utils.Constants.NOTIFICATION_CHANNEL_ID
 import ru.irinavb.augmentedhikes.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import ru.irinavb.augmentedhikes.utils.Constants.NOTIFICATION_ID
 import ru.irinavb.augmentedhikes.utils.TrackingUtility
+import javax.inject.Inject
 
 private const val TAG = "TrackingService"
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
+@AndroidEntryPoint
 class TrackingService : LifecycleService() {
 
     var isFirstRun = true
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    @Inject lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     companion object {
         val isTracking = MutableLiveData<Boolean>()
@@ -54,7 +57,7 @@ class TrackingService : LifecycleService() {
     override fun onCreate() {
         super.onCreate()
         postInitialValues()
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         isTracking.observe(this) {
             updateLocationTracking(it)
         }

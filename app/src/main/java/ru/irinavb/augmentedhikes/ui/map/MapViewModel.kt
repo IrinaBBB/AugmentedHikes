@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    val mainRepository: MainRepository
+    val mainRepository: MainRepository,
 ) : ViewModel() {
 
 }

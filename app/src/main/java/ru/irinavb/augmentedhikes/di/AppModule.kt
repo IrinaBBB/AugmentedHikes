@@ -1,6 +1,5 @@
 package ru.irinavb.augmentedhikes.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.google.android.gms.location.LocationServices
@@ -11,7 +10,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.irinavb.augmentedhikes.db.HikesDatabase
 import ru.irinavb.augmentedhikes.utils.Constants.HIKES_DATABASE_NAME
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -36,6 +34,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideFusedLocationClient(@ApplicationContext app: Application) =  LocationServices
-        .getFusedLocationProviderClient(app)
+    fun provideFusedLocationClient(@ApplicationContext context: Context) = LocationServices
+        .getFusedLocationProviderClient(context)
 }
