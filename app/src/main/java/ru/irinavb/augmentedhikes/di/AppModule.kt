@@ -1,7 +1,9 @@
 package ru.irinavb.augmentedhikes.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +33,9 @@ object AppModule {
     @Singleton
     @Provides
     fun provideHikeDao(db: HikesDatabase) = db.getHikeDao()
+
+    @Singleton
+    @Provides
+    fun provideFusedLocationClient(@ApplicationContext app: Application) =  LocationServices
+        .getFusedLocationProviderClient(app)
 }

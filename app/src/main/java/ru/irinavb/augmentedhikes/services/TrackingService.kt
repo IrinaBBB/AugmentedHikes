@@ -16,7 +16,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.google.android.gms.location.*
 import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.maps.model.LatLng
@@ -70,11 +69,13 @@ class TrackingService : LifecycleService() {
                         isFirstRun = false
                     } else {
                         Log.d(TAG, "Resuming service")
+                        startForegroundService()
                     }
                     Log.d(TAG, "onStartCommand: started or resumed service")
                 }
                 ACTION_PAUSE_SERVICE -> {
                     Log.d(TAG, "onStartCommand: paused service")
+                    pauseService()
                 }
                 ACTION_STOP_SERVICE -> {
                     Log.d(TAG, "onStartCommand: stopped service")
@@ -83,6 +84,10 @@ class TrackingService : LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun pauseService() {
+        isTracking.postValue(false)
     }
 
     @SuppressLint("MissingPermission")

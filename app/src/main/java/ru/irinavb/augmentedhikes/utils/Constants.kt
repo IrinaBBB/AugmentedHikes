@@ -1,5 +1,7 @@
 package ru.irinavb.augmentedhikes.utils
 
+import android.graphics.Color
+
 object Constants {
 
     // Db
@@ -15,6 +17,7 @@ object Constants {
     const val ACTION_STOP_SERVICE = "ACTION_STOP_SERVICE"
     const val ACTION_SHOW_TRACKING_FRAGMENT = "ACTION_SHOW_TRACKING_FRAGMENT"
 
+    // Update Intervals
     const val LOCATION_UPDATE_INTERVAL = 5000L
     const val FASTEST_LOCATION_INTERVAL = 2000L
 
@@ -22,4 +25,10 @@ object Constants {
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"
     const val NOTIFICATION_ID = 1 // should not be 0
+
+    // Polyline Options
+    const val POLYLINE_COLOR = Color.RED
+    const val POLYLINE_WIDTH = 8f
+
+    const val MAP_ZOOM = 15f
 }

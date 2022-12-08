@@ -9,15 +9,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import ru.irinavb.augmentedhikes.R
 import ru.irinavb.augmentedhikes.databinding.FragmentMapBinding
+import ru.irinavb.augmentedhikes.services.Polyline
 import ru.irinavb.augmentedhikes.services.TrackingService
+import ru.irinavb.augmentedhikes.utils.Constants.ACTION_PAUSE_SERVICE
 import ru.irinavb.augmentedhikes.utils.Constants.ACTION_START_OR_RESUME_SERVICE
+import ru.irinavb.augmentedhikes.utils.Constants.MAP_ZOOM
+import ru.irinavb.augmentedhikes.utils.Constants.POLYLINE_COLOR
+import ru.irinavb.augmentedhikes.utils.Constants.POLYLINE_WIDTH
 import ru.irinavb.augmentedhikes.utils.Constants.REQUEST_CODE_BACKGROUND_LOCATION_PERMISSION
 import ru.irinavb.augmentedhikes.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import ru.irinavb.augmentedhikes.utils.TrackingUtility
@@ -30,6 +40,10 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val viewModel: MapViewModel by viewModels()
 
+    private var isTracking = false
+    private var pathPoints = mutableListOf<Polyline>()
+
+
     private var map: GoogleMap? = null
 
     @SuppressLint("MissingPermission")
@@ -41,14 +55,84 @@ class MapFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.mapView.onCreate(savedInstanceState)
+        binding.floatingActionButton.setOnClickListener {
+            toggleRun()
+        }
         binding.mapView.getMapAsync {
             map = it
+            addAllPolylines()
         }
-        binding.floatingActionButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Hello", Toast.LENGTH_LONG).show()
+        subscribeToObservers()
+        return root
+    }
+
+    private fun subscribeToObservers() {
+        TrackingService.isTracking.observe(viewLifecycleOwner, Observer {
+            updateTracking(it)
+        })
+
+        TrackingService.pathPoints.observe(viewLifecycleOwner, Observer {
+            pathPoints = it
+            addLatestPolyline()
+            moveCameraToUser()
+        })
+    }
+
+    private fun toggleRun() {
+        if (isTracking) {
+            sendCommandService(ACTION_PAUSE_SERVICE)
+        } else {
             sendCommandService(ACTION_START_OR_RESUME_SERVICE)
         }
-        return root
+    }
+
+    private fun updateTracking(isTracking: Boolean) {
+        this.isTracking = isTracking
+        if (!isTracking) {
+            binding.floatingActionButton.icon = getDrawable(
+                requireContext(), R.drawable
+                    .ic_play_button
+            )
+        } else {
+            binding.floatingActionButton.icon = getDrawable(
+                requireContext(), R.drawable
+                    .ic_pause_button
+            )
+        }
+    }
+
+    private fun moveCameraToUser() {
+        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
+            map?.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    pathPoints.last().last(),
+                    MAP_ZOOM
+                )
+            )
+        }
+    }
+
+    private fun addAllPolylines() {
+        for (polyline in pathPoints) {
+            val polylineOptions = PolylineOptions()
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
+                .addAll(polyline)
+            map?.addPolyline(polylineOptions)
+        }
+    }
+
+    private fun addLatestPolyline() {
+        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
+            val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
+            val lastLatLng = pathPoints.last().last()
+            val polylineOptions = PolylineOptions()
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
+                .add(preLastLatLng)
+                .add(lastLatLng)
+            map?.addPolyline(polylineOptions)
+        }
     }
 
     private fun sendCommandService(action: String) {
