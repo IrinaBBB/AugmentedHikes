@@ -7,6 +7,9 @@ object Constants {
     // Db
     const val HIKES_DATABASE_NAME = "hikes_db"
 
+    // Shared Preferences
+    const val OSM_PREFERENCES = "osm_pref"
+
     // Permissions
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
     const val REQUEST_CODE_BACKGROUND_LOCATION_PERMISSION = 1

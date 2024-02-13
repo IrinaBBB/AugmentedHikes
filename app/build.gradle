@@ -54,8 +54,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    // OSM
+    // Open Street Map
     implementation 'org.osmdroid:osmdroid-android:6.1.13'
+    implementation 'com.github.MKergall:osmbonuspack:6.7.0'
 
     // Room
     implementation "androidx.room:room-runtime:2.4.3"
