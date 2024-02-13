@@ -28,4 +28,9 @@ class AugmentedFragment : Fragment() {
         val root: View = binding.root
         return root
     }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = AugmentedFragment()
+    }
 }

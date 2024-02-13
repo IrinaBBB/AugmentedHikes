@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ru.irinavb.augmentedhikes.repositories.MainRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class SingleTopViewModel @Inject constructor(
-    val mainRepository: MainRepository
 ) : ViewModel() {
 
     val zoomValue: LiveData<Double>
@@ -26,5 +24,10 @@ class SingleTopViewModel @Inject constructor(
 
     fun decreaseZoomValue() {
         _zoomValue.value = _zoomValue.value?.minus(0.5)
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = SingleTopViewModel()
     }
 }

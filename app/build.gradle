@@ -58,6 +58,9 @@ dependencies {
     implementation 'org.osmdroid:osmdroid-android:6.1.13'
     implementation 'com.github.MKergall:osmbonuspack:6.7.0'
 
+    // Shared Preferences
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+
     // Room
     implementation "androidx.room:room-runtime:2.4.3"
     kapt "androidx.room:room-compiler:2.4.3"
@@ -72,11 +75,7 @@ dependencies {
     // Dagger Hilt
     implementation 'com.google.dagger:hilt-android:2.43.2'
     kapt 'com.google.dagger:hilt-compiler:2.43.2'
-
-    // AR
-    api project(':sceneformux')
-    implementation 'com.google.ar:core:1.34.0'
-
+    
     // Easy Permissions
     implementation 'pub.devrel:easypermissions:3.0.0'
 

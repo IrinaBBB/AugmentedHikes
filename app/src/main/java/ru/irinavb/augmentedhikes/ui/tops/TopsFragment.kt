@@ -28,27 +28,20 @@ class TopsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host_fragment_activity_main) as
-                NavHostFragment
         _binding = FragmentTopsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         (activity as AppCompatActivity).supportActionBar?.title = "Tops"
 
-        binding.topsListLayout.hunstadtoppenItem.setOnClickListener {
-            Navigation.findNavController(root).navigate(R.id.action_navigation_tops_to_navigation_single_top)
-        }
-
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = TopsFragment()
     }
 }

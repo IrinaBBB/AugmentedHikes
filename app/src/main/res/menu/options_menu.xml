@@ -2,24 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/option_accelerometer"
-        android:title="@string/accelerometer"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/option_accelerometer"-->
+<!--        android:title="@string/accelerometer"-->
+<!--        app:showAsAction="never" />-->
 
-    <item
-        android:id="@+id/option_magnetometer"
-        android:title="@string/magnetometer"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/option_magnetometer"-->
+<!--        android:title="@string/magnetometer"-->
+<!--        app:showAsAction="never" />-->
 
-    <item
-        android:id="@+id/option_gyroscope"
-        android:title="@string/gyroscope"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/option_gyroscope"-->
+<!--        android:title="@string/gyroscope"-->
+<!--        app:showAsAction="never" />-->
 
-    <item
-        android:id="@+id/option_orientation"
-        android:title="@string/orientation"
-        app:showAsAction="never" />
+<!--    <item-->
+<!--        android:id="@+id/option_orientation"-->
+<!--        android:title="@string/orientation"-->
+<!--        app:showAsAction="never" />-->
 
 </menu>
