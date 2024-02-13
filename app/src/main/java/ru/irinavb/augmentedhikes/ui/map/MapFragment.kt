@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import dagger.hilt.android.AndroidEntryPoint
+import androidx.preference.PreferenceManager
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
 import ru.irinavb.augmentedhikes.databinding.FragmentMapBinding
-import ru.irinavb.augmentedhikes.utils.Constants.OSM_PREFERENCES
 
-@AndroidEntryPoint
 class MapFragment : Fragment() {
 
     private lateinit var binding: FragmentMapBinding
@@ -27,12 +27,31 @@ class MapFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initMap()
+    }
+
     private fun setMap() {
         Configuration.getInstance().load(
             activity as AppCompatActivity,
-            activity?.getSharedPreferences(OSM_PREFERENCES, Context.MODE_PRIVATE)
+            activity?.getSharedPreferences("osm_pref", Context.MODE_PRIVATE)
         )
         Configuration.getInstance().userAgentValue = BuildConfig.LIBRARY_PACKAGE_NAME
+    }
+
+    private fun initMap() = with(binding) {
+        mapView.apply {
+            setMultiTouchControls(true)
+            zoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT)
+        }
+
+        val startPoint = GeoPoint(28.15, -15.417)
+
+        mapView.controller.apply {
+            setZoom(16.0)
+            animateTo(startPoint)
+        }
     }
 
     companion object {
