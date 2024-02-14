@@ -31,16 +31,16 @@ fun checkLocationPermission(
     initOSM: () -> Unit,
     locationPermissionRequest: ActivityResultLauncher<Array<String>>
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        checkPermissionsVersionQAndHigher(context, initOSM, locationPermissionRequest)
+    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+        checkPermissionsVersionQ(context, initOSM, locationPermissionRequest)
     } else {
-        checkPermissionsVersionLowerThanQ(context, initOSM, locationPermissionRequest)
+        checkPermissions(context, initOSM, locationPermissionRequest)
     }
 }
 
 
 @RequiresApi(Build.VERSION_CODES.Q)
-private fun checkPermissionsVersionQAndHigher(
+private fun checkPermissionsVersionQ(
     context: FragmentActivity,
     initOSM: () -> Unit,
     locationPermissionRequest: ActivityResultLauncher<Array<String>>
@@ -61,7 +61,7 @@ private fun checkPermissionsVersionQAndHigher(
     }
 }
 
-private fun checkPermissionsVersionLowerThanQ(
+private fun checkPermissions(
     context: FragmentActivity,
     initOSM: () -> Unit,
     locationPermissionRequest: ActivityResultLauncher<Array<String>>

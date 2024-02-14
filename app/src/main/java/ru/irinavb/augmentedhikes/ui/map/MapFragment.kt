@@ -33,7 +33,6 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initMap()
         locationPermissionRequest = registerPermissions(this, this::initMap)
         checkLocationPermission(requireActivity(), this::initMap, locationPermissionRequest)
     }
