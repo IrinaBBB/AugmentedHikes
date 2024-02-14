@@ -5,18 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
 import org.osmdroid.config.Configuration
 import org.osmdroid.library.BuildConfig
-import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import ru.irinavb.augmentedhikes.databinding.FragmentMapBinding
+import ru.irinavb.augmentedhikes.utils.checkLocationPermission
+import ru.irinavb.augmentedhikes.utils.registerPermissions
 
 class MapFragment : Fragment() {
 
     private lateinit var binding: FragmentMapBinding
+    private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +34,8 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMap()
+        locationPermissionRequest = registerPermissions(this, this::initMap)
+        checkLocationPermission(requireActivity(), this::initMap, locationPermissionRequest)
     }
 
     private fun setMap() {
@@ -46,11 +52,16 @@ class MapFragment : Fragment() {
             zoomController.setVisibility(CustomZoomButtonsController.Visibility.SHOW_AND_FADEOUT)
         }
 
-        val startPoint = GeoPoint(28.15, -15.417)
-
         mapView.controller.apply {
             setZoom(16.0)
-            animateTo(startPoint)
+            val locationProvider = GpsMyLocationProvider(activity)
+            val locationOverlay = MyLocationNewOverlay(locationProvider, mapView)
+            locationOverlay.enableMyLocation()
+            locationOverlay.enableFollowLocation()
+            locationOverlay.runOnFirstFix {
+                mapView.overlays.clear()
+                mapView.overlays.add(locationOverlay)
+            }
         }
     }
 

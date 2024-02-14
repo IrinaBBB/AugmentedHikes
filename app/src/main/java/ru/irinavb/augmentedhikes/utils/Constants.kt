@@ -16,5 +16,8 @@ object Constants {
     const val DEFAULT_TRACK_COLOR = "#FF0081FF"
     const val DEFAULT_UPDATE_TIME = "3000"
 
+    const val PERMISSIONS_DENIED_TOAST_TEXT =
+        "Location access denied. Enable for full map features."
+
 }
 

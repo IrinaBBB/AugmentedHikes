@@ -82,9 +82,6 @@ dependencies {
     // Life Cycle
     implementation "androidx.lifecycle:lifecycle-service:2.5.1"
 
-    // Google Maps
-    implementation 'com.google.android.gms:play-services-maps:18.1.0'
-
     // Location Service
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 }
